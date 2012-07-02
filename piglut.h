@@ -16,14 +16,22 @@ typedef struct
    unsigned int panelHeight;
 } piglutDisplayConfig_t;
 
+typedef struct
+{
+   unsigned int width;
+   unsigned int height;
+   unsigned int bpp;
+} piglutWindowConfig_t;
+
 void * piglutInit(int argc, char **argv);
 
 void piglutTerm(void *pg);
 
+/* initializes the window config to a default */
+void piglutInitWindowConfig(piglutWindowConfig_t * wc);
+
 int piglutInitWindowSize(void *pg,
-                         unsigned int width,
-                         unsigned int height,
-                         unsigned int bpp);
+                         piglutWindowConfig_t * wc);
 
 int piglutGetDisplayConfig(void *pg,
                            piglutDisplayConfig_t * dc);

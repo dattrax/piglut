@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <alloca.h>
 #include <termios.h>
+#include <string.h>
 
 #include "bcm_host.h"
 
@@ -96,13 +97,26 @@ void piglutTerm(void *pg)
    }
 }
 
+/* more extensible, allows adding of additional parameters to the
+   API without having to change all your software */
+void piglutInitWindowConfig(piglutWindowConfig_t * wc)
+{
+   if (wc)
+   {
+      wc->width = 0xFFFFFFFFU;
+      wc->height = 0xFFFFFFFFU;
+      wc->bpp = 32;
+   }
+}
+
 /* allows you to override options not specified at the command line */
 int piglutInitWindowSize(void *pg,
-                         unsigned int width,
-                         unsigned int height,
-                         unsigned int bpp)
+                         piglutWindowConfig_t * wc)
 {
    piglut_t * p = (piglut_t *)pg;
+   unsigned int width = wc->width;
+   unsigned int height = wc->height;
+   unsigned int bpp = wc->bpp;
    if (p)
    {
       /* verify the new values prior to saving them */
